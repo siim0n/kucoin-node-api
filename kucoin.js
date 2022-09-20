@@ -15,16 +15,36 @@ const Kucoin = {
     this.environment = config.environment
     this.baseURL = url
     this.futuresBaseURL = futuresUrl;
-    this.secretKey = config.secretKey
-    this.apiKey = config.apiKey
-    this.passphrase = config.passphrase
+    this.standard = {
+      secretKey: config.standard.secretKey,
+      apiKey: config.standard.apiKey,
+      passphrase: config.standard.passphrase
+    }
+    this.futures = {
+      secretKey: config.futures.secretKey,
+      apiKey: config.futures.apiKey,
+      passphrase: config.futures.passphrase
+    }
+
     const User = require('./lib/user')
     const Market = require('./lib/market')
     const Trade = require('./lib/trade')
     const Sockets = require('./lib/websockets')
     Object.assign(this, User, Market, Trade, Sockets)
   },
-  sign: function(endpoint, params, method) {
+  sign: function(endpoint, params, method, type='standard') {
+    let secretKey, passphrase, apiKey;
+    if (type === 'futures') {
+      secretKey = this.futures.secretKey;
+      passphrase = this.futures.passphrase;
+      apiKey = this.futures.apiKey;
+    }
+    else {
+      secretKey = this.standard.secretKey;
+      passphrase = this.standard.passphrase;
+      apiKey = this.standard.apiKey;
+    }
+    
     let header = {
       headers: {
         'Content-Type': 'application/json'
@@ -37,15 +57,15 @@ const Kucoin = {
     } else {
       strForSign = nonce + method + endpoint + JSON.stringify(params)
     }
-    let signatureResult = crypto.createHmac('sha256', this.secretKey)
+    let signatureResult = crypto.createHmac('sha256', secretKey)
       .update(strForSign)
       .digest('base64')
-    let passphraseResult = crypto.createHmac('sha256', this.secretKey)
-      .update(this.passphrase)
+    let passphraseResult = crypto.createHmac('sha256', secretKey)
+      .update(passphrase)
       .digest('base64')
     header.headers['KC-API-SIGN'] = signatureResult
     header.headers['KC-API-TIMESTAMP'] = nonce
-    header.headers['KC-API-KEY'] = this.apiKey
+    header.headers['KC-API-KEY'] = apiKey
     header.headers['KC-API-PASSPHRASE'] = passphraseResult
     header.headers['KC-API-KEY-VERSION'] = 2
     return header
