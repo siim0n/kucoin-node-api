@@ -20,10 +20,9 @@ const Kucoin = {
       apiKey: config.standard.apiKey,
       passphrase: config.standard.passphrase
     }
-    this.futures = {
-      secretKey: config.futures.secretKey,
-      apiKey: config.futures.apiKey,
-      passphrase: config.futures.passphrase
+    this.futures = {};
+    if (config.futures) {
+      this.futures = Object.assign(this.futures, config.futures);
     }
 
     const User = require('./lib/user')
