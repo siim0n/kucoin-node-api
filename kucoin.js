@@ -4,13 +4,17 @@ const crypto = require('crypto')
 const Kucoin = {
   init: function(config) {
     let url = ''
+    let futuresUrl = ''
     if (config.environment === 'live') {
-      url = 'https://api.kucoin.com'
+      url = 'https://api.kucoin.com';
+      futuresUrl = 'https://api-futures.kucoin.com';
     } else {
       url = 'https://openapi-sandbox.kucoin.com'
+      futuresUrl = 'https://api-sandbox-futures.kucoin.com';
     }
     this.environment = config.environment
     this.baseURL = url
+    this.futuresBaseURL = futuresUrl;
     this.secretKey = config.secretKey
     this.apiKey = config.apiKey
     this.passphrase = config.passphrase
