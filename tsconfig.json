@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+        "experimentalDecorators": true,
+		"target": "es2022",
+		"outDir": "./build",
+		"module": "ES2022",
+		"esModuleInterop": true,
+        "moduleResolution": "node",
+		"skipLibCheck": true
+	},
+	"include": ["./src/**/*", "./src/*.json"]
+}

@@ -1,6 +1,7 @@
-const axios = require('axios')
+import axios from 'axios'
 
-const User = {}
+
+
 
 /* 
   List Accounts
@@ -10,7 +11,7 @@ const User = {}
     type: string [optional]
   }
 */
-User.getAccounts = async function(params = {}) {
+const getAccounts = async function(params = {}) {
   let endpoint = '/api/v1/accounts'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -24,7 +25,7 @@ User.getAccounts = async function(params = {}) {
     id: accountId
   }
 */
-User.getAccountById = async function(params) {
+const getAccountById = async function(params: { id: string }) {
   let endpoint = '/api/v1/accounts/' + params.id
   delete params.id
   let url = this.baseURL + endpoint
@@ -40,7 +41,7 @@ User.getAccountById = async function(params) {
     currency: string
   }
 */
-User.createAccount = async function(params) {
+const createAccount = async function(params: any) {
   let endpoint = '/api/v1/accounts'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -56,7 +57,7 @@ User.createAccount = async function(params) {
     endAt: long (unix time)
   }
 */
-User.getAccountLedgers = async function(params) {
+const getAccountLedgers = async function(params: any) {
   let endpoint = `/api/v1/accounts/ledgers`
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -72,7 +73,7 @@ User.getAccountLedgers = async function(params) {
     endAt: long (unix time)
   }
 */
-User.getAccountLedgersOld = async function(params) {
+const getAccountLedgersOld = async function(params: { id: any; accountId: any }) {
   let endpoint = `/api/v1/accounts/${params.id}/ledgers`
   delete params.accountId
   let url = this.baseURL + endpoint + this.formatQuery(params)
@@ -87,7 +88,7 @@ User.getAccountLedgersOld = async function(params) {
     id: string
   }
 */
-User.getHolds = async function(params) {
+const getHolds = async function(params: { id: any }) {
   let endpoint = `/api/v1/accounts/${params.id}/holds`
   delete params.id
   let url = this.baseURL + endpoint
@@ -106,7 +107,7 @@ User.getHolds = async function(params) {
     amount: string
   }
 */
-User.innerTransfer = async function(params) {
+const innerTransfer = async function(params: any) {
   let endpoint = '/api/v2/accounts/inner-transfer'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -122,7 +123,7 @@ User.innerTransfer = async function(params) {
     recAccountType: string - 'MAIN' or 'TRADE'
   }
 */
-User.futuresTransferOut = async function(params) {
+const futuresTransferOut = async function(params: any) {
   let endpoint = '/api/v3/transfer-out'
   let url = this.futuresBaseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST', 'futures'))
@@ -138,7 +139,7 @@ User.futuresTransferOut = async function(params) {
     payAccountType: string - 'MAIN' or 'TRADE'
   }
 */
-User.futuresTransferIn = async function(params) {
+const futuresTransferIn = async function(params: any) {
   let endpoint = '/api/v1/transfer-in'
   let url = this.futuresBaseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST', 'futures'))
@@ -152,7 +153,7 @@ User.futuresTransferIn = async function(params) {
     currency: string
   }
 */
-User.createDepositAddress = async function(params) {
+const createDepositAddress = async function(params: any) {
   let endpoint = '/api/v1/deposit-addresses'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -166,7 +167,7 @@ User.createDepositAddress = async function(params) {
     currency: string
   }
 */
-User.getDepositAddress = async function(params) {
+const getDepositAddress = async function(params: { currency: any }) {
   let endpoint = `/api/v2/deposit-addresses?currency=${params.currency}`
   delete params.currency
   let url = this.baseURL + endpoint
@@ -183,7 +184,7 @@ User.getDepositAddress = async function(params) {
     pageSize: string [optional (default 50)]
   }
 */
-User.getRepayRecord = async function(params = {}) {
+const getRepayRecord = async function(params = {}) {
   let endpoint = `/api/v1/margin/borrow/outstanding`
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -202,7 +203,7 @@ User.getRepayRecord = async function(params = {}) {
     currentPage: Int [optional]
   }
 */
-User.getIsolatedRepayRecord = async function(params = {}) {
+const getIsolatedRepayRecord = async function(params = {}) {
   let endpoint = '/api/v1/isolated/borrow/outstanding'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -220,7 +221,7 @@ User.getIsolatedRepayRecord = async function(params = {}) {
     status: string [optional]
   }
 */
-User.getDepositList = async function(params = {}) {
+const getDepositList = async function(params = {}) {
   let endpoint = '/api/v1/deposits'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -231,7 +232,7 @@ User.getDepositList = async function(params = {}) {
   Get Margin Account
   GET /api/v1/margin/account
 */
-User.getMarginAccount = async function() {
+const getMarginAccount = async function() {
   const endpoint = '/api/v1/margin/account'
   const url = this.baseURL + endpoint
   const result = await axios.get(url, this.sign(endpoint, "", 'GET'))
@@ -242,7 +243,7 @@ User.getMarginAccount = async function() {
   Query Single Isolated Margin Account Info
   GET /api/v1/isolated/account/{symbol}
 */
-User.getIsolatedMarginAccountInfo = async function(params = {}) {
+const getIsolatedMarginAccountInfo = async function(params: { symbol: any }) {
   const endpoint = `/api/v1/isolated/account/${params.symbol}`
   const url = this.baseURL + endpoint
   const result = await axios.get(url, this.sign(endpoint, "", 'GET'))
@@ -260,7 +261,7 @@ User.getIsolatedMarginAccountInfo = async function(params = {}) {
     status: string [optional]
   }
 */
-User.getWithdrawalsList = async function(params = {}) {
+const getWithdrawalsList = async function(params = {}) {
   let endpoint = '/api/v1/withdrawals'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -274,7 +275,7 @@ User.getWithdrawalsList = async function(params = {}) {
     currency: string
   }
 */
-User.getWithdrawalQuotas = async function(params) {
+const getWithdrawalQuotas = async function(params: any) {
   let endpoint = '/api/v1/withdrawals/quotas'
   let url = this.baseURL + endpoint  + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -293,7 +294,7 @@ User.getWithdrawalQuotas = async function(params) {
     remark: string [optional]
   }
 */
-User.applyForWithdrawal = async function(params) {
+const applyForWithdrawal = async function(params: any) {
   let endpoint = '/api/v1/withdrawals'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -307,7 +308,7 @@ User.applyForWithdrawal = async function(params) {
     withdrawalId: string
   }
 */
-User.cancelWithdrawal = async function(params) {
+const cancelWithdrawal = async function(params: { withdrawalId: string }) {
   let endpoint = '/api/v1/withdrawls/' + params.withdrawalId
   delete params.withdrawalId
   let url = this.baseURL + endpoint
@@ -327,7 +328,7 @@ User.cancelWithdrawal = async function(params) {
     status: string [optional] Available value: PROCESSING, SUCCESS, and FAILURE
   }
 */
-User.getV1HistoricalWithdrawals = async function(params) {
+const getV1HistoricalWithdrawals = async function(params: any) {
   let endpoint = '/api/v1/hist-withdrawals'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -346,11 +347,53 @@ User.getV1HistoricalWithdrawals = async function(params) {
     status: string [optional] Available value: PROCESSING, SUCCESS, and FAILURE
   }
 */
-User.getV1HistoricalDeposits = async function(params) {
+const getV1HistoricalDeposits = async function(params: any) {
   let endpoint = '/api/v1/hist-deposits'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
   return result.data
 }
 
-module.exports = User
+const User = {
+  getIsolatedRepayRecord,
+  getDepositList,
+  getMarginAccount,
+  getIsolatedMarginAccountInfo,
+  getWithdrawalsList,
+  getWithdrawalQuotas,
+  applyForWithdrawal,
+  cancelWithdrawal,
+  getV1HistoricalWithdrawals,
+  getV1HistoricalDeposits,
+  getRepayRecord,
+  getAccounts,
+  getAccountById,
+  createAccount, 
+  getAccountLedgers,
+  getAccountLedgersOld,
+  getHolds,
+  innerTransfer,
+}
+
+export interface User {
+  getIsolatedRepayRecord: (params: { symbol: string, startTime?: number, endTime?: number, limit?: number, fromId?: number }) => Promise<any>
+  getDepositList: (params: { currency?: string, startAt?: number, endAt?: number, status?: string }) => Promise<any>
+  getMarginAccount: () => Promise<any>
+  getIsolatedMarginAccountInfo: (params: { symbol: string }) => Promise<any>
+  getWithdrawalsList: (params: { currency?: string, startAt?: number, endAt?: number, status?: string }) => Promise<any>
+  getWithdrawalQuotas: (params: { currency: string }) => Promise<any>
+  applyForWithdrawal: (params: { currency: string, address: string, amount: number, memo?: string, isInner?: boolean, remark?: string }) => Promise<any>
+  cancelWithdrawal: (params: { withdrawalId: string }) => Promise<any>
+  getV1HistoricalWithdrawals: (params: { currentPage?: number, pageSize?: number, currency?: string, startAt?: number, endAt?: number, status?: string }) => Promise<any>
+  getV1HistoricalDeposits: (params: { currentPage?: number, pageSize?: number, currency?: string, startAt?: number, endAt?: number, status?: string }) => Promise<any>
+  getRepayRecord: (params: { symbol: string, startTime?: number, endTime?: number, limit?: number, fromId?: number }) => Promise<any>
+  getAccounts: () => Promise<any>
+  getAccountById: (params: { accountId: string }) => Promise<any>
+  createAccount: (params: { type: string }) => Promise<any>
+  getAccountLedgers: (params: { accountId: string, currency?: string, startAt?: number, endAt?: number, limit?: number, fromId?: number }) => Promise<any>
+  getAccountLedgersOld: (params: { accountId: string, currency?: string, startAt?: number, endAt?: number, limit?: number, fromId?: number }) => Promise<any>
+  getHolds: (params: { accountId: string, currency?: string, startAt?: number, endAt?: number, limit?: number, fromId?: number }) => Promise<any>
+  innerTransfer: (params: { from: string, to: string, currency: string, amount: number }) => Promise<any>
+}
+
+export default User

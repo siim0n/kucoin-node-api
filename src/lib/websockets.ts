@@ -1,26 +1,29 @@
-const WebSocket = require('ws')
-const axios = require('axios')
+import WebSocket from 'ws'
+import  post  from 'axios'
 
-const Sockets = {}
-Sockets.ws = {}
-Sockets.heartbeat = {}
 
-getPublicWsToken = async function(baseURL) {
+
+
+const getPublicWsToken = async function(baseURL: string) {
   let endpoint = '/api/v1/bullet-public'
   let url = baseURL + endpoint
-  let result = await axios.post(url, {})
+  let result = await post(url, {})
   return result.data
 }
 
-getPrivateWsToken = async function(baseURL, sign) {
+const getPrivateWsToken = async function(baseURL: string, sign: { headers: any }) {
   let endpoint = '/api/v1/bullet-private'
   let url = baseURL + endpoint
-  let result = await axios.post(url, {}, sign)
+  let result = await post({
+    url: url,
+    data: {},
+    headers: sign.headers
+  });
   return result.data
 }
 
-getSocketEndpoint = async function(type, baseURL, environment, sign) {
-  let r
+const getSocketEndpoint = async function(type: string, baseURL: any, environment: string, sign: any) {
+  let r: { data: { token: any; instanceServers: any[] } }
   if (type == 'private') {
     r = await getPrivateWsToken(baseURL, sign)
   } else { 
@@ -48,7 +51,7 @@ getSocketEndpoint = async function(type, baseURL, environment, sign) {
   }
   eventHanlder = function
 */
-Sockets.initSocket = async function(params, eventHandler) {
+const initSocket = async function(params: { sign: boolean; endpoint: boolean; topic: any; symbols: any }, eventHandler: any) {
   try {
     if ( !params.sign ) params.sign = false;
     if ( !params.endpoint ) params.endpoint = false;
@@ -63,7 +66,7 @@ Sockets.initSocket = async function(params, eventHandler) {
       Sockets.ws[topic].heartbeat = setInterval(Sockets.socketHeartBeat, 20000, topic)
     })
     ws.on('error', (error) => {
-      Sockets.handleSocketError(error)
+      Sockets.handleSocketError(error as unknown as { code: string; message: string })
       console.log(error)
     })
     ws.on('ping', () => {
@@ -78,17 +81,17 @@ Sockets.initSocket = async function(params, eventHandler) {
   }
 }
 
-Sockets.handleSocketError = function(error) {
+const handleSocketError = function(error: { code: string; message: string }) {
   console.log('WebSocket error: ' + (error.code ? ' (' + error.code + ')' : '') +
   (error.message ? ' ' + error.message : ''))
 }
 
-Sockets.socketHeartBeat = function(topic) {
+const socketHeartBeat = function(topic: string | number) {
   let ws = Sockets.ws[topic]
   ws.ping()
 }
 
-Sockets.subscribe = async function(topic, endpoint, type, eventHandler) {
+const subscribe = async function(topic: string | number, endpoint: any, type: string, eventHandler: any) {
   let ws = Sockets.ws[topic]
   if (type === 'private') {
     ws.send(JSON.stringify({
@@ -109,7 +112,7 @@ Sockets.subscribe = async function(topic, endpoint, type, eventHandler) {
   ws.on('message', eventHandler)
 }
 
-Sockets.unsubscribe = async function(topic, endpoint, type, eventHandler) {
+const unsubscribe = async function(topic: string | number, endpoint: any, type: any, eventHandler: any) {
   let ws = Sockets.ws[topic]
   ws.send(JSON.stringify({
     id: Date.now(),
@@ -120,7 +123,7 @@ Sockets.unsubscribe = async function(topic, endpoint, type, eventHandler) {
   ws.on('message', eventHandler)
 }
 
-Sockets.topics = function( topic, symbols = [], endpoint = false, sign = false ) {
+const topics = function( topic: string, symbols = [], endpoint = false, sign = false ) {
     if ( endpoint ) return [topic, endpoint + ( symbols.length > 0 ? ':' : '' ) + symbols.join( ',' ), sign ? 'private' : 'public']
     if ( topic === 'ticker' ) {
         return [topic, "/market/ticker:" + symbols.join( ',' ), 'public']
@@ -148,5 +151,25 @@ Sockets.topics = function( topic, symbols = [], endpoint = false, sign = false )
         return [topic, "/spotMarket/advancedOrders", 'private']
     }
 }
+export interface Sockets {
+  topics: (topic: string, symbols?: any[], endpoint?: boolean, sign?: boolean) => string[];
+  subscribe(topic: any, endpoint: any, type: any, eventHandler: any): unknown;
+  socketHeartBeat(socketHeartBeat: any, arg1: number, topic: any): any;
+  handleSocketError(error: {code: string, message: string}): unknown;
+  unsubscribe: (topic: string | number, endpoint: any, type: any, eventHandler: any) => Promise<void>;
+  initSocket: (params: { sign: boolean; endpoint: boolean; topic: any; symbols: any }, eventHandler: any) => Promise<void>
+  ws: any
+  heartbeat: any
+}
+const Sockets: Sockets = {
+  topics,
+  subscribe,
+  socketHeartBeat,
+  handleSocketError,
+  unsubscribe,
+  initSocket,
+  ws: {},
+  heartbeat: {}
+}
 
-module.exports = Sockets
+export default Sockets

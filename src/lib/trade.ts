@@ -1,6 +1,6 @@
-const axios = require('axios')
+import axios from 'axios'
 
-const Trade = {}
+
 
 /* 
   Place a new order
@@ -25,7 +25,25 @@ const Trade = {}
     visibleSize: string [optional]
   }
 */
-Trade.placeOrder = async function (params) {
+
+interface PlaceOrderParams {
+  clientOid: string
+  side: string
+  symbol: string
+  type: string
+  remark: string
+  stop: string
+  stopPrice: string
+  stp: string
+  price: string
+  size: string
+  timeInForce: string
+  cancelAfter: number
+  hidden: boolean
+  Iceberg: boolean
+  visibleSize: string
+}
+const placeOrder = async function (params: PlaceOrderParams) {
   let endpoint = '/api/v1/orders'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -57,7 +75,26 @@ Trade.placeOrder = async function (params) {
     visibleSize: string [optional]
   }
 */
-Trade.placeMarginOrder = async function (params) {
+interface PlaceMarginOrderParams {
+  clientOid: string
+  side: string
+  symbol: string
+  type: string
+  remark: string
+  stop: string
+  stopPrice: string
+  stp: string
+  marginModel: string
+  autoBorrow: boolean
+  price: string
+  size: string
+  timeInForce: string
+  cancelAfter: number
+  hidden: boolean
+  Iceberg: boolean
+  visibleSize: string
+}
+const placeMarginOrder = async function (params: PlaceMarginOrderParams) {
   let endpoint = '/api/v1/margin/order'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -91,7 +128,29 @@ Trade.placeMarginOrder = async function (params) {
     visibleSize: string [optional]
   }
 */
-Trade.placeFuturesOrder = async function (params) {
+
+interface PlaceFuturesOrderParams {
+  clientOid: string
+  side: string
+  symbol: string
+  type: string
+  leverage: string
+  remark: string
+  stop: string
+  stopPrice: string
+  stopPriceType: string
+  reduceOnly: boolean
+  closeOrder: boolean
+  forceHold: boolean
+  price: string
+  size: string
+  timeInForce: string
+  postOnly: boolean
+  hidden: boolean
+  Iceberg: boolean
+  visibleSize: string
+}
+const placeFuturesOrder = async function (params: PlaceFuturesOrderParams) {
   let endpoint = '/api/v1/order'
   let url = this.futuresBaseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST', 'futures'));
@@ -111,7 +170,7 @@ Trade.placeFuturesOrder = async function (params) {
     term: String - units in days. Can be 7,14 or 28.
   }
 */
-Trade.borrow = async function (params) {
+const borrow = async function (params: any) {
   let endpoint = '/api/v1/margin/borrow'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -132,7 +191,7 @@ Trade.borrow = async function (params) {
     period: String - units in days. Can be 7,14 or 28.
   }
 */
-Trade.isolatedBorrow = async function (params) {
+const isolatedBorrow = async function (params: any) {
   let endpoint = '/api/v1/isolated/borrow'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -151,7 +210,7 @@ Trade.isolatedBorrow = async function (params) {
     seqStrategy: String RECENTLY_EXPIRE_FIRST or HIGHEST_RATE_FIRST
   }
 */
-Trade.quickRepayment = async function (params) {
+const quickRepayment = async function (params: any) {
   let endpoint = '/api/v1/isolated/repay/all'
   let url = this.baseURL + endpoint
   let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'))
@@ -165,7 +224,7 @@ Trade.quickRepayment = async function (params) {
     id: order-id
   }
 */
-Trade.cancelOrder = async function (params) {
+const cancelOrder = async function (params: { id: string }) {
   let endpoint = '/api/v1/orders/' + params.id
   delete params.id
   let url = this.baseURL + endpoint
@@ -180,7 +239,9 @@ Trade.cancelOrder = async function (params) {
     symbol: string [optional]
   }
 */
-Trade.cancelAllOrders = async function (params) {
+const cancelAllOrders = async function (params: {
+  symbol?: string
+}) {
   let endpoint = '/api/v1/orders'
   let url = this.baseURL + endpoint
   let result = await axios.delete(url, this.sign(endpoint, params, 'DELETE'))
@@ -199,7 +260,14 @@ Trade.cancelAllOrders = async function (params) {
     endAt: long (unix time) [optional]
   }
 */
-Trade.getOrders = async function (params = {}) {
+const getOrders = async function (params: {
+  status?: string
+  symbol?: string
+  side?: string
+  type?: string
+  startAt?: number
+  endAt?: number
+}) {
   let endpoint = '/api/v1/orders'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -213,7 +281,7 @@ Trade.getOrders = async function (params = {}) {
     id: order-id
   }
 */
-Trade.getOrderById = async function (params) {
+const getOrderById = async function (params: { id: string }) {
   let endpoint = '/api/v1/orders/' + params.id
   delete params.id
   let url = this.baseURL + endpoint
@@ -233,7 +301,7 @@ Trade.getOrderById = async function (params) {
     endAt: long (unix time) [optional]
   }
 */
-Trade.listFills = async function (params = {}) {
+const listFills = async function (params = {}) {
   let endpoint = '/api/v1/fills'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -244,7 +312,7 @@ Trade.listFills = async function (params = {}) {
   List Your Recent Fills: max 1000 fills in the last 24 hours, all symbols
   GET /api/v1/limit/fills
 */
-Trade.recentFills = async function (params = {}) {
+const recentFills = async function (params = {}) {
   let endpoint = '/api/v1/limit/fills'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -263,7 +331,14 @@ Trade.recentFills = async function (params = {}) {
     side: string (buy || sell) [optional]
   }
 */
-Trade.getV1HistoricalOrders = async function (params = {}) {
+const getV1HistoricalOrders = async function (params: {
+  currentPage?: number
+  pageSize?: number
+  symbol?: string
+  startAt?: number
+  endAt?: number
+  side?: string
+}) {
   let endpoint = '/api/v1/hist-orders'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url, this.sign(endpoint, params, 'GET'))
@@ -279,7 +354,7 @@ Trade.getV1HistoricalOrders = async function (params = {}) {
     symbol: string [optional]
   }
 */
-Trade.getPosition = async function (params) {
+const getPosition = async function (params: string) {
   let endpoint = ''
   if (params != "") {
     endpoint = `/api/v1/position?symbol=${params}`
@@ -291,6 +366,36 @@ Trade.getPosition = async function (params) {
   return result.data
 }
 
-
-
-module.exports = Trade
+const Trade: Trade = {
+  isolatedBorrow,
+  quickRepayment,
+  cancelOrder,
+  cancelAllOrders,
+  getOrders,
+  getOrderById,
+  listFills,
+  recentFills,
+  getV1HistoricalOrders,
+  getPosition,
+  borrow,
+  placeFuturesOrder,
+  placeOrder,
+  placeMarginOrder
+}
+export interface Trade {
+  getPosition: (params: string) => Promise<any>
+  getV1HistoricalOrders: (params: any) => Promise<any>
+  recentFills: (params: any) => Promise<any>
+  listFills: (params: any) => Promise<any>
+  getOrderById: (params: { id: string }) => Promise<any>
+  getOrders: (params: any) => Promise<any>
+  cancelAllOrders: (params: any) => Promise<any>
+  cancelOrder: (params: { id: string }) => Promise<any>
+  quickRepayment: (params: any) => Promise<any>
+  isolatedBorrow: (params: any) => Promise<any>
+  borrow: (params: any) => Promise<any>
+  placeOrder (params: PlaceOrderParams): Promise<any>
+  placeMarginOrder (params: PlaceMarginOrderParams): Promise<any>
+  placeFuturesOrder (params: PlaceFuturesOrderParams): Promise<any>
+}
+export default Trade

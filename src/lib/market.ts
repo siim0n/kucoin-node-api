@@ -1,13 +1,12 @@
-const axios = require('axios')
+import axios from 'axios'
 
-const Market = {}
 
 /* 
   Get Symbols List
   GET /api/v1/symbols
   market = string [optional]
 */
-Market.getSymbols = async function(market = "") {
+const getSymbols = async function(market = "") {
   let endpoint = ""
   if (market != "") {
     endpoint = `/api/v1/symbols?market=${market}`
@@ -24,7 +23,7 @@ Market.getSymbols = async function(market = "") {
   GET /api/v1/market/orderbook/level1?symbol=<symbol>
   symbol = string
 */
-Market.getTicker = async function(symbol) {
+const getTicker = async function(symbol: string) {
   let endpoint = `/api/v1/market/orderbook/level1?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -35,7 +34,7 @@ Market.getTicker = async function(symbol) {
   Get All Tickers
   GET /api/v1/market/allTickers
 */
-Market.getAllTickers = async function() {
+const getAllTickers = async function() {
   let endpoint = '/api/v1/market/allTickers'
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -47,7 +46,7 @@ Market.getAllTickers = async function() {
   GET /api/v1/market/stats?symbol=<symbol>
   symbol = string
 */
-Market.get24hrStats = async function(symbol) {
+const get24hrStats = async function(symbol: string) {
   let endpoint = `/api/v1/market/stats?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -58,7 +57,7 @@ Market.get24hrStats = async function(symbol) {
   Get Market List
   GET /api/v1/markets
 */
-Market.getMarketList = async function() {
+const getMarketList = async function() {
   let endpoint = '/api/v1/markets'
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -74,7 +73,7 @@ Market.getMarketList = async function() {
     symbol: string
   }
 */
-Market.getPartOrderBook = async function(params) {
+const getPartOrderBook = async function(params:   { amount: number, symbol: string }) {
   let endpoint = `/api/v1/market/orderbook/level2_${params.amount}?symbol=${params.symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -86,7 +85,7 @@ Market.getPartOrderBook = async function(params) {
   GET /api/v1/market/orderbook/level2?symbol=<symbol>
   symbol = string
 */
-Market.getOrderBook = async function(symbol) {
+const getOrderBook = async function(symbol: string) {
   let endpoint = `/api/v1/market/orderbook/level2?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -98,7 +97,7 @@ Market.getOrderBook = async function(symbol) {
   GET /api/v2/market/orderbook/level2?symbol=<symbol> 
   symbol = string
 */
-Market.getFullOrderBook = async function(symbol) {
+const getFullOrderBook = async function(symbol: string) {
   let endpoint = `/api/v3/market/orderbook/level2?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -110,7 +109,7 @@ Market.getFullOrderBook = async function(symbol) {
   GET /api/v1/market/orderbook/level3?symbol=<symbol>
   symbol = string
 */
-Market.getFullOrderBookAtomic = async function(symbol) {
+const getFullOrderBookAtomic = async function(symbol: string) {
   let endpoint = `/api/v3/market/orderbook/level3?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -122,7 +121,7 @@ Market.getFullOrderBookAtomic = async function(symbol) {
   GET /api/v1/market/histories?symbol=<symbol>
   symbol = string
 */
-Market.getTradeHistories = async function(symbol) {
+const getTradeHistories = async function(symbol: string) {
   let endpoint = `/api/v1/market/histories?symbol=${symbol}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -139,7 +138,7 @@ Market.getTradeHistories = async function(symbol) {
     type: enum [1min, 3min, 5min, 15min, 30min, 1hour, 2hour, 4hour, 6hour, 8hour, 12hour 1day, 1week]
   }
 */
-Market.getKlines = async function(params) {
+const getKlines = async function(params: {symbol: string, startAt: string, endAt: string, type: string}) {
   let endpoint = '/api/v1/market/candles'
   params.startAt = params.startAt.toString().slice(0, 10)
   params.endAt = params.endAt.toString().slice(0, 10)
@@ -152,7 +151,7 @@ Market.getKlines = async function(params) {
   Get currencies
   GET /api/v1/currencies
 */
-Market.getCurrencies = async function() {
+const getCurrencies = async function() {
   let endpoint = '/api/v1/currencies'
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -164,7 +163,7 @@ Market.getCurrencies = async function() {
   GET /api/v1/currencies/{currency}
   currency = string
 */
-Market.getCurrency = async function(currency) {
+const getCurrency = async function(currency: string) {
   let endpoint = `/api/v1/currencies/${currency}`
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
@@ -179,7 +178,7 @@ Market.getCurrency = async function(currency) {
     currencies: array
   }
 */
-Market.getFiatPrice = async function(params) {
+const getFiatPrice = async function(params: { base?: string; currencies: string[] }) {
   let endpoint = '/api/v1/prices'
   let url = this.baseURL + endpoint + this.formatQuery(params)
   let result = await axios.get(url)
@@ -190,11 +189,29 @@ Market.getFiatPrice = async function(params) {
   Server Time
   GET /api/v1/timestamp
 */
-Market.getServerTime = async function() {
+const getServerTime = async function() {
   let endpoint = '/api/v1/timestamp'
   let url = this.baseURL + endpoint
   let result = await axios.get(url)
   return result.data
 }
 
-module.exports = Market
+const Market = {
+  getTicker,
+  getAllTickers,
+  get24hrStats,
+  getMarketList,
+  getPartOrderBook,
+  getOrderBook,
+  getFullOrderBook,
+  getFullOrderBookAtomic,
+  getTradeHistories,
+  getKlines,
+  getCurrencies,
+  getCurrency,
+  getFiatPrice,
+  getServerTime,
+  getSymbols
+}
+
+export default Market

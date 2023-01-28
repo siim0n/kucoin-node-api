@@ -1,8 +1,14 @@
-const qs = require('querystring')
-const crypto = require('crypto')
+import qs from 'querystring'
+import crypto from 'crypto'
+
+
+import User from './lib/user'
+import Market from './lib/market'
+import Trade from './lib/trade'
+import Sockets from './lib/websockets'
 
 const Kucoin = {
-  init: function(config) {
+  init: function (config: { environment: string; standard: { secretKey: any; apiKey: any; passphrase: any }; futures: any }) {
     let url = ''
     let futuresUrl = ''
     if (config.environment === 'live') {
@@ -25,14 +31,10 @@ const Kucoin = {
       this.futures = Object.assign(this.futures, config.futures);
     }
 
-    const User = require('./lib/user')
-    const Market = require('./lib/market')
-    const Trade = require('./lib/trade')
-    const Sockets = require('./lib/websockets')
-    Object.assign(this, User, Market, Trade, Sockets)
+
   },
-  sign: function(endpoint, params, method, type='standard') {
-    let secretKey, passphrase, apiKey;
+  sign: function (endpoint: string, params: any, method: string, type = 'standard') {
+    let secretKey: crypto.BinaryLike | crypto.KeyObject, passphrase: crypto.BinaryLike, apiKey: any;
     if (type === 'futures') {
       secretKey = this.futures.secretKey;
       passphrase = this.futures.passphrase;
@@ -43,7 +45,7 @@ const Kucoin = {
       passphrase = this.standard.passphrase;
       apiKey = this.standard.apiKey;
     }
-    
+
     let header = {
       headers: {
         'Content-Type': 'application/json'
@@ -69,13 +71,17 @@ const Kucoin = {
     header.headers['KC-API-KEY-VERSION'] = 2
     return header
   },
-  formatQuery: function(queryObj) {
+  formatQuery: function (queryObj: qs.ParsedUrlQueryInput) {
     if (JSON.stringify(queryObj).length !== 2) {
       return '?' + qs.stringify(queryObj)
     } else {
       return ''
     }
-  }
+  },
+  trade: Trade,
+  market: Market,
+  user: User,
+  sockets: Sockets
 }
 
 module.exports = Kucoin
