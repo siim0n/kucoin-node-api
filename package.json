@@ -2,10 +2,11 @@
   "name": "kucoin-node-api",
   "version": "2.1.5",
   "description": "Node.js KuCoin Cryptocurrency Exchange v2 API Wrapper/SDK",
-  "main": "kucoin.js",
+  "main": "build/kucoin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "types": "./typings/index.d.ts",
   "keywords": [
     "KuCoin",
     "API",
