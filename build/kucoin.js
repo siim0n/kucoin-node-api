@@ -80,4 +80,4 @@ const Kucoin = {
     user: User,
     sockets: Sockets
 };
-module.exports = Kucoin;
+export default Kucoin;

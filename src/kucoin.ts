@@ -84,4 +84,4 @@ const Kucoin = {
   sockets: Sockets
 }
 
-module.exports = Kucoin
+export default Kucoin
