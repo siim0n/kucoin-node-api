@@ -23,6 +23,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/escwdev/kucoin-node-api"
+    "url": "https://github.com/siim0n/kucoin-node-api"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.4"
   }
 }
