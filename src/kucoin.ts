@@ -2,10 +2,10 @@ import qs from 'querystring'
 import crypto from 'crypto'
 
 
-import User from './lib/user'
-import Market from './lib/market'
-import Trade from './lib/trade'
-import Sockets from './lib/websockets'
+import User from './lib/user.js'
+import Market from './lib/market.js'
+import Trade from './lib/trade.js'
+import Sockets from './lib/websockets.js'
 
 const Kucoin = {
   init: function (config: { environment: string; standard: { secretKey: any; apiKey: any; passphrase: any }; futures: any }) {
