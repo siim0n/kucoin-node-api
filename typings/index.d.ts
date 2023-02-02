@@ -70,21 +70,24 @@ interface PlaceFuturesOrderParams {
     side: string
     symbol: string
     type: string
-    leverage: string
-    remark: string
-    stop: string
-    stopPrice: string
-    stopPriceType: string
-    reduceOnly: boolean
-    closeOrder: boolean
-    forceHold: boolean
     price: string
     size: string
-    timeInForce: string
-    postOnly: boolean
-    hidden: boolean
-    Iceberg: boolean
-    visibleSize: string
+    leverage: string
+    timeInForce?: string
+    remark?: string
+    stop?: string
+    stopPrice?: string
+    stopPriceType?: string
+    reduceOnly?: boolean
+    closeOrder?: boolean
+    forceHold?: boolean
+   
+   
+    
+    postOnly?: boolean
+    hidden?: boolean
+    Iceberg?: boolean
+    visibleSize?: string
   }
 export interface Trade {
     getPosition: (params: string) => Promise<any>
