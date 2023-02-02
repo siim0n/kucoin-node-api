@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
         "experimentalDecorators": true,
-		"target": "es2022",
+		"target": "ES2017",
 		"outDir": "./build",
-		"module": "ES2022",
+		"module": "CommonJS",
 		"esModuleInterop": true,
         "moduleResolution": "node",
 		"skipLibCheck": true

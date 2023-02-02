@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "cjstoesm": "^2.1.2",
     "kucoin-node-api": "github:siim0n/kucoin-node-api",
     "ws": "^7.5.1"
   },

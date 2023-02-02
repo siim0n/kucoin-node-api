@@ -1,4 +1,9 @@
-import axios from 'axios';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 /*
   Get Symbols List
   GET /api/v1/symbols
@@ -13,7 +18,7 @@ const getSymbols = async function (market = "") {
         endpoint = "/api/v1/symbols";
     }
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -24,7 +29,7 @@ const getSymbols = async function (market = "") {
 const getTicker = async function (symbol) {
     let endpoint = `/api/v1/market/orderbook/level1?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -34,7 +39,7 @@ const getTicker = async function (symbol) {
 const getAllTickers = async function () {
     let endpoint = '/api/v1/market/allTickers';
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -45,7 +50,7 @@ const getAllTickers = async function () {
 const get24hrStats = async function (symbol) {
     let endpoint = `/api/v1/market/stats?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -55,7 +60,7 @@ const get24hrStats = async function (symbol) {
 const getMarketList = async function () {
     let endpoint = '/api/v1/markets';
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -70,7 +75,7 @@ const getMarketList = async function () {
 const getPartOrderBook = async function (params) {
     let endpoint = `/api/v1/market/orderbook/level2_${params.amount}?symbol=${params.symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -81,7 +86,7 @@ const getPartOrderBook = async function (params) {
 const getOrderBook = async function (symbol) {
     let endpoint = `/api/v1/market/orderbook/level2?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -92,7 +97,7 @@ const getOrderBook = async function (symbol) {
 const getFullOrderBook = async function (symbol) {
     let endpoint = `/api/v3/market/orderbook/level2?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -103,7 +108,7 @@ const getFullOrderBook = async function (symbol) {
 const getFullOrderBookAtomic = async function (symbol) {
     let endpoint = `/api/v3/market/orderbook/level3?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -114,7 +119,7 @@ const getFullOrderBookAtomic = async function (symbol) {
 const getTradeHistories = async function (symbol) {
     let endpoint = `/api/v1/market/histories?symbol=${symbol}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -132,7 +137,7 @@ const getKlines = async function (params) {
     params.startAt = params.startAt.toString().slice(0, 10);
     params.endAt = params.endAt.toString().slice(0, 10);
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -142,7 +147,7 @@ const getKlines = async function (params) {
 const getCurrencies = async function () {
     let endpoint = '/api/v1/currencies';
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -153,7 +158,7 @@ const getCurrencies = async function () {
 const getCurrency = async function (currency) {
     let endpoint = `/api/v1/currencies/${currency}`;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -167,7 +172,7 @@ const getCurrency = async function (currency) {
 const getFiatPrice = async function (params) {
     let endpoint = '/api/v1/prices';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 /*
@@ -177,7 +182,7 @@ const getFiatPrice = async function (params) {
 const getServerTime = async function () {
     let endpoint = '/api/v1/timestamp';
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url);
+    let result = await axios_1.default.get(url);
     return result.data;
 };
 const Market = {
@@ -197,4 +202,4 @@ const Market = {
     getServerTime,
     getSymbols
 };
-export default Market;
+exports.default = Market;

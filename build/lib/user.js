@@ -1,4 +1,9 @@
-import axios from 'axios';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 /*
   List Accounts
   GET /api/v1/accounts
@@ -10,7 +15,7 @@ import axios from 'axios';
 const getAccounts = async function (params = {}) {
     let endpoint = '/api/v1/accounts';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -24,7 +29,7 @@ const getAccountById = async function (params) {
     let endpoint = '/api/v1/accounts/' + params.id;
     delete params.id;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -38,7 +43,7 @@ const getAccountById = async function (params) {
 const createAccount = async function (params) {
     let endpoint = '/api/v1/accounts';
     let url = this.baseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST'));
     return result.data;
 };
 /*
@@ -53,7 +58,7 @@ const createAccount = async function (params) {
 const getAccountLedgers = async function (params) {
     let endpoint = `/api/v1/accounts/ledgers`;
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -69,7 +74,7 @@ const getAccountLedgersOld = async function (params) {
     let endpoint = `/api/v1/accounts/${params.id}/ledgers`;
     delete params.accountId;
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -83,7 +88,7 @@ const getHolds = async function (params) {
     let endpoint = `/api/v1/accounts/${params.id}/holds`;
     delete params.id;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -100,7 +105,7 @@ const getHolds = async function (params) {
 const innerTransfer = async function (params) {
     let endpoint = '/api/v2/accounts/inner-transfer';
     let url = this.baseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST'));
     return result.data;
 };
 /*
@@ -115,7 +120,7 @@ const innerTransfer = async function (params) {
 const futuresTransferOut = async function (params) {
     let endpoint = '/api/v3/transfer-out';
     let url = this.futuresBaseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST', 'futures'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST', 'futures'));
     return result.data;
 };
 /*
@@ -130,7 +135,7 @@ const futuresTransferOut = async function (params) {
 const futuresTransferIn = async function (params) {
     let endpoint = '/api/v1/transfer-in';
     let url = this.futuresBaseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST', 'futures'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST', 'futures'));
     return result.data;
 };
 /*
@@ -143,7 +148,7 @@ const futuresTransferIn = async function (params) {
 const createDepositAddress = async function (params) {
     let endpoint = '/api/v1/deposit-addresses';
     let url = this.baseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST'));
     return result.data;
 };
 /*
@@ -157,7 +162,7 @@ const getDepositAddress = async function (params) {
     let endpoint = `/api/v2/deposit-addresses?currency=${params.currency}`;
     delete params.currency;
     let url = this.baseURL + endpoint;
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -172,7 +177,7 @@ const getDepositAddress = async function (params) {
 const getRepayRecord = async function (params = {}) {
     let endpoint = `/api/v1/margin/borrow/outstanding`;
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -190,7 +195,7 @@ const getRepayRecord = async function (params = {}) {
 const getIsolatedRepayRecord = async function (params = {}) {
     let endpoint = '/api/v1/isolated/borrow/outstanding';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -206,7 +211,7 @@ const getIsolatedRepayRecord = async function (params = {}) {
 const getDepositList = async function (params = {}) {
     let endpoint = '/api/v1/deposits';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -216,7 +221,7 @@ const getDepositList = async function (params = {}) {
 const getMarginAccount = async function () {
     const endpoint = '/api/v1/margin/account';
     const url = this.baseURL + endpoint;
-    const result = await axios.get(url, this.sign(endpoint, "", 'GET'));
+    const result = await axios_1.default.get(url, this.sign(endpoint, "", 'GET'));
     return result.data;
 };
 /*
@@ -226,7 +231,7 @@ const getMarginAccount = async function () {
 const getIsolatedMarginAccountInfo = async function (params) {
     const endpoint = `/api/v1/isolated/account/${params.symbol}`;
     const url = this.baseURL + endpoint;
-    const result = await axios.get(url, this.sign(endpoint, "", 'GET'));
+    const result = await axios_1.default.get(url, this.sign(endpoint, "", 'GET'));
     return result.data;
 };
 /*
@@ -242,7 +247,7 @@ const getIsolatedMarginAccountInfo = async function (params) {
 const getWithdrawalsList = async function (params = {}) {
     let endpoint = '/api/v1/withdrawals';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -255,7 +260,7 @@ const getWithdrawalsList = async function (params = {}) {
 const getWithdrawalQuotas = async function (params) {
     let endpoint = '/api/v1/withdrawals/quotas';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -273,7 +278,7 @@ const getWithdrawalQuotas = async function (params) {
 const applyForWithdrawal = async function (params) {
     let endpoint = '/api/v1/withdrawals';
     let url = this.baseURL + endpoint;
-    let result = await axios.post(url, params, this.sign(endpoint, params, 'POST'));
+    let result = await axios_1.default.post(url, params, this.sign(endpoint, params, 'POST'));
     return result.data;
 };
 /*
@@ -287,7 +292,7 @@ const cancelWithdrawal = async function (params) {
     let endpoint = '/api/v1/withdrawls/' + params.withdrawalId;
     delete params.withdrawalId;
     let url = this.baseURL + endpoint;
-    let result = await axios.delete(url, this.sign(endpoint, params, 'DELETE'));
+    let result = await axios_1.default.delete(url, this.sign(endpoint, params, 'DELETE'));
     return result.data;
 };
 /*
@@ -305,7 +310,7 @@ const cancelWithdrawal = async function (params) {
 const getV1HistoricalWithdrawals = async function (params) {
     let endpoint = '/api/v1/hist-withdrawals';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 /*
@@ -323,7 +328,7 @@ const getV1HistoricalWithdrawals = async function (params) {
 const getV1HistoricalDeposits = async function (params) {
     let endpoint = '/api/v1/hist-deposits';
     let url = this.baseURL + endpoint + this.formatQuery(params);
-    let result = await axios.get(url, this.sign(endpoint, params, 'GET'));
+    let result = await axios_1.default.get(url, this.sign(endpoint, params, 'GET'));
     return result.data;
 };
 const User = {
@@ -346,4 +351,4 @@ const User = {
     getHolds,
     innerTransfer,
 };
-export default User;
+exports.default = User;

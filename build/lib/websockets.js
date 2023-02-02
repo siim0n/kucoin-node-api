@@ -1,15 +1,20 @@
-import WebSocket from 'ws';
-import post from 'axios';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const ws_1 = __importDefault(require("ws"));
+const axios_1 = __importDefault(require("axios"));
 const getPublicWsToken = async function (baseURL) {
     let endpoint = '/api/v1/bullet-public';
     let url = baseURL + endpoint;
-    let result = await post(url, {});
+    let result = await (0, axios_1.default)(url, {});
     return result.data;
 };
 const getPrivateWsToken = async function (baseURL, sign) {
     let endpoint = '/api/v1/bullet-private';
     let url = baseURL + endpoint;
-    let result = await post({
+    let result = await (0, axios_1.default)({
         url: url,
         data: {},
         headers: sign.headers
@@ -55,7 +60,7 @@ const initSocket = async function (params, eventHandler) {
         let [topic, endpoint, type] = Sockets.topics(params.topic, params.symbols, params.endpoint, params.sign);
         let sign = this.sign('/api/v1/bullet-private', {}, 'POST');
         let websocket = await getSocketEndpoint(type, this.baseURL, this.environment, sign);
-        let ws = new WebSocket(websocket);
+        let ws = new ws_1.default(websocket);
         Sockets.ws[topic] = ws;
         ws.on('open', () => {
             console.log(topic + ' opening websocket connection... ');
@@ -167,4 +172,4 @@ const Sockets = {
     ws: {},
     heartbeat: {}
 };
-export default Sockets;
+exports.default = Sockets;

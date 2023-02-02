@@ -1,9 +1,14 @@
-import qs from 'querystring';
-import crypto from 'crypto';
-import User from './lib/user.js';
-import Market from './lib/market.js';
-import Trade from './lib/trade.js';
-import Sockets from './lib/websockets.js';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const querystring_1 = __importDefault(require("querystring"));
+const crypto_1 = __importDefault(require("crypto"));
+const user_js_1 = __importDefault(require("./lib/user.js"));
+const market_js_1 = __importDefault(require("./lib/market.js"));
+const trade_js_1 = __importDefault(require("./lib/trade.js"));
+const websockets_js_1 = __importDefault(require("./lib/websockets.js"));
 const Kucoin = {
     init: function (config) {
         let url = '';
@@ -54,10 +59,10 @@ const Kucoin = {
         else {
             strForSign = nonce + method + endpoint + JSON.stringify(params);
         }
-        let signatureResult = crypto.createHmac('sha256', secretKey)
+        let signatureResult = crypto_1.default.createHmac('sha256', secretKey)
             .update(strForSign)
             .digest('base64');
-        let passphraseResult = crypto.createHmac('sha256', secretKey)
+        let passphraseResult = crypto_1.default.createHmac('sha256', secretKey)
             .update(passphrase)
             .digest('base64');
         header.headers['KC-API-SIGN'] = signatureResult;
@@ -69,15 +74,15 @@ const Kucoin = {
     },
     formatQuery: function (queryObj) {
         if (JSON.stringify(queryObj).length !== 2) {
-            return '?' + qs.stringify(queryObj);
+            return '?' + querystring_1.default.stringify(queryObj);
         }
         else {
             return '';
         }
     },
-    trade: Trade,
-    market: Market,
-    user: User,
-    sockets: Sockets
+    trade: trade_js_1.default,
+    market: market_js_1.default,
+    user: user_js_1.default,
+    sockets: websockets_js_1.default
 };
-export default Kucoin;
+exports.default = Kucoin;
