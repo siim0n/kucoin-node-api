@@ -78,10 +78,11 @@ const Kucoin = {
       return ''
     }
   },
-  trade: Trade,
-  market: Market,
-  user: User,
-  sockets: Sockets
+  trade: Object.assign(Trade, { context: this }),
+  //add the "this" context to the market object
+  market: Object.assign(Market, { context: this }),
+  user: Object.assign(User, { context: this }),
+  sockets: Object.assign(Sockets, { context: this })
 }
 
 export default Kucoin
