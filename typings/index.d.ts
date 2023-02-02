@@ -20,7 +20,7 @@ declare module 'kucoin-node-api' {
       passphrase: string;
     };
     trade: Trade
-    market: any
+    market: Market
     user: User
     websockets: Sockets
   }
@@ -28,7 +28,23 @@ declare module 'kucoin-node-api' {
 }
 
 
-
+interface Market {
+  getTicker: (symbol: string) => Promise<any>
+  getAllTickers: () => Promise<any>
+  get24hrStats: (symbol: string) => Promise<any>
+  getMarketList: () => Promise<any>
+  getPartOrderBook: (params: { amount: number, symbol: string }) => Promise<any>
+  getOrderBook: (symbol: string) => Promise<any>
+  getFullOrderBook: (symbol: string) => Promise<any>
+  getFullOrderBookAtomic: (symbol: string) => Promise<any>
+  getTradeHistories: (symbol: string) => Promise<any>
+  getKlines: (params: {symbol: string, startAt: string, endAt: string, type: string}) => Promise<any>
+  getCurrencies: () => Promise<any>
+  getCurrency: (currency: string) => Promise<any>
+  getFiatPrice: (params: { base?: string; currencies: string[] }) => Promise<any>
+  getServerTime: () => Promise<any>
+  getSymbols: () => Promise<any>
+}
 interface PlaceOrderParams {
     clientOid: string
     side: string
