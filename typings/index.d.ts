@@ -1,17 +1,7 @@
 declare module 'kucoin-node-api' {
 
   export interface KucoinConfig {
-    standard: {
-      secretKey: string;
-      apiKey: string;
-      passphrase: string;
-    };
-    futures: {
-      secretKey: string;
-      apiKey: string;
-      passphrase: string;
-    };
-    environment: string;
+
   }
   export class KuCoin {
     init: (config: KucoinConfig) => void;
